@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Belle Lingerie | Alta Lingerie & Elegância</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Playfair Display & Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Configuração de Cores (Marsala, Off-White, Gold) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        marsala: {
+                            light: '#8B263E',
+                            DEFAULT: '#6B1D2F',
+                            dark: '#4A121E',
+                            deep: '#340B14'
+                        },
+                        offwhite: {
+                            light: '#FFFFFF',
+                            DEFAULT: '#FAF8F5',
+                            dark: '#F4EFEA',
+                            border: '#E8E1D9'
+                        },
+                        gold: {
+                            light: '#E6CA94',
+                            DEFAULT: '#C5A059',
+                            dark: '#9A7B3E'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-header {
+            background: rgba(250, 248, 245, 0.92);
+            backdrop-filter: blur(12px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6B1D2F;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-offwhite text-stone-800 font-sans antialiased selection:bg-marsala selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-marsala-deep text-offwhite-light text-xs text-center py-2.5 px-4 tracking-widest uppercase font-medium border-b border-gold/30">
+        <span>✨ Cupom <strong class="text-gold">LABELLE10</strong> para 10% OFF | Frete Grátis acima de R$ 299 ✨</span>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 glass-header border-b border-offwhite-border transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-marsala hover:text-gold focus:outline-none p-2" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+
+                <!-- Brand Logo -->
+                <div class="flex-shrink-0 text-center md:text-left">
+                    <a href="#" class="inline-block">
+                        <span class="font-serif text-2xl sm:text-3xl font-bold tracking-wider text-marsala-deep block">LA BELLE</span>
+                        <span class="text-[9px] tracking-[0.35em] uppercase text-gold font-semibold block -mt-1">Alta Lingerie & Elegância</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-7 text-xs uppercase tracking-widest font-semibold">
+                    <a href="#home" class="text-stone-900 hover:text-marsala transition-colors">Início</a>
+                    <a href="#produtos" onclick="filterCategory('todos')" class="text-stone-600 hover:text-marsala transition-colors">Catálogo</a>
+                    <a href="#produtos" onclick="filterCategory('sutia')" class="text-stone-600 hover:text-marsala transition-colors">Sutiãs</a>
+                    <a href="#produtos" onclick="filterCategory('calcinha')" class="text-stone-600 hover:text-marsala transition-colors">Calcinhas</a>
+                    <a href="#produtos" onclick="filterCategory('body')" class="text-stone-600 hover:text-marsala transition-colors">Bodies</a>
+                    <a href="#produtos" onclick="filterCategory('noiva')" class="text-marsala font-bold hover:text-gold transition-colors">Coleção Noiva</a>
+                    <a href="#sobre" class="text-stone-600 hover:text-marsala transition-colors">Sobre Nós</a>
+                </nav>
+
+                <!-- Action Icons -->
+                <div class="flex items-center space-x-4 sm:space-x-5">
+                    <button id="search-btn" class="text-marsala hover:text-gold transition-colors p-1" aria-label="Buscar">
+                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                    </button>
+                    
+                    <button id="fav-btn" class="text-marsala hover:text-gold transition-colors relative p-1" aria-label="Favoritos">
+                        <i class="fa-regular fa-heart text-lg"></i>
+                        <span id="fav-count" class="absolute -top-1 -right-2 bg-marsala text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold hidden">0</span>
+                    </button>
+
+                    <button id="cart-btn" class="text-marsala hover:text-gold transition-colors relative p-1" aria-label="Carrinho">
+                        <i class="fa-solid fa-bag-shopping text-xl"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-2 bg-gold text-marsala-deep text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-offwhite border-t border-offwhite-border px-4 pt-4 pb-6 space-y-3">
+            <a href="#home" class="block text-stone-800 font-medium hover:text-marsala">Início</a>
+            <a href="#produtos" onclick="filterCategory('todos')" class="block text-stone-800 font-medium hover:text-marsala">Catálogo Completo</a>
+            <a href="#produtos" onclick="filterCategory('sutia')" class="block text-stone-800 font-medium hover:text-marsala">Sutiãs de Renda</a>
+            <a href="#produtos" onclick="filterCategory('calcinha')" class="block text-stone-800 font-medium hover:text-marsala">Calcinhas</a>
+            <a href="#produtos" onclick="filterCategory('body')" class="block text-stone-800 font-medium hover:text-marsala">Bodies & Corsets</a>
+            <a href="#produtos" onclick="filterCategory('noiva')" class="block text-marsala font-bold">Coleção Noiva</a>
+            <a href="#sobre" class="block text-stone-800 font-medium hover:text-marsala">Sobre Nós</a>
+        </div>
+    </header>
+
+    <!-- Search Bar Modal -->
+    <div id="search-bar" class="hidden bg-offwhite-dark border-b border-offwhite-border py-3 px-4 transition-all">
+        <div class="max-w-3xl mx-auto flex items-center">
+            <i class="fa-solid fa-magnifying-glass text-marsala mr-3"></i>
+            <input type="text" id="search-input" placeholder="Procure por renda marsala, body, calcinha, conjunto noiva..." class="w-full bg-transparent border-none text-stone-800 placeholder-stone-400 focus:outline-none text-sm">
+            <button id="close-search" class="text-stone-500 hover:text-marsala ml-3"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative bg-marsala-deep text-white min-h-[80vh] flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=1600&q=80');"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-marsala-deep via-marsala-dark/80 to-transparent z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 py-24">
+            <div class="max-w-2xl">
+                <span class="text-gold font-serif italic text-lg sm:text-2xl block mb-2">Exclusividade & Sensualidade</span>
+                <h1 class="font-serif text-4xl sm:text-6xl font-bold leading-tight mb-6">A elegância que começa na sua pele.</h1>
+                <p class="text-offwhite-dark text-base sm:text-lg mb-8 font-light leading-relaxed">
+                    Descubra peças elaboradas com toque aveludado, renda francesa e a intensidade do tom Marsala. Desenhadas para celebrar o seu poder único.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <a href="#produtos" class="inline-block bg-gold hover:bg-gold-light text-marsala-deep font-semibold px-8 py-4 rounded-full text-center transition-all transform hover:-translate-y-0.5 shadow-xl uppercase tracking-wider text-xs">
+                        Explorar Coleção
+                    </a>
+                    <a href="#produtos" onclick="filterCategory('noiva')" class="inline-block border border-gold/70 hover:bg-gold/10 text-offwhite font-medium px-8 py-4 rounded-full text-center transition-all uppercase tracking-wider text-xs">
+                        Coleção Noiva
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefícios / Diferenciais -->
+    <section class="py-10 bg-offwhite border-b border-offwhite-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4 space-y-2">
+                    <div class="text-marsala text-2xl"><i class="fa-solid fa-gem"></i></div>
+                    <h4 class="font-serif font-bold text-sm text-stone-900">Renda Francesa & Seda</h4>
+                    <p class="text-xs text-stone-500 font-light">Matérias-primas nobres e toque extra macio</p>
+                </div>
+                <div class="p-4 space-y-2">
+                    <div class="text-marsala text-2xl"><i class="fa-solid fa-truck-fast"></i></div>
+                    <h4 class="font-serif font-bold text-sm text-stone-900">Frete Grátis</h4>
+                    <p class="text-xs text-stone-500 font-light">Em pedidos acima de R$ 299 para todo o Brasil</p>
+                </div>
+                <div class="p-4 space-y-2">
+                    <div class="text-marsala text-2xl"><i class="fa-solid fa-box-open"></i></div>
+                    <h4 class="font-serif font-bold text-sm text-stone-900">Embalagem Discreta</h4>
+                    <p class="text-xs text-stone-500 font-light">Caixa sofisticada, perfumada e sem identificação externa</p>
+                </div>
+                <div class="p-4 space-y-2">
+                    <div class="text-marsala text-2xl"><i class="fa-solid fa-rotate-left"></i></div>
+                    <h4 class="font-serif font-bold text-sm text-stone-900">Primeira Troca Grátis</h4>
+                    <p class="text-xs text-stone-500 font-light">Até 30 dias para trocar sem complicação</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categorias em Destaque -->
+    <section id="colecoes" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-marsala-deep mb-3">Linhas de Luxo</h2>
+                <div class="w-16 h-0.5 bg-gold mx-auto mb-4"></div>
+                <p class="text-stone-600 font-light">Encontre a peça perfeita para cada ocasião especial.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div onclick="filterCategory('sutia')" class="group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-md border border-offwhite-border">
+                    <img src="https://images.unsplash.com/photo-1616150638538-ffb0679a3fc4?auto=format&fit=crop&w=800&q=80" alt="Sutiãs de Alta Sustentação" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-marsala-deep/90 via-marsala-dark/30 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <h3 class="font-serif text-2xl font-bold mb-1">Sutiãs</h3>
+                        <p class="text-xs text-offwhite-dark uppercase tracking-widest mb-3">Modelagem & Sustentação</p>
+                        <span class="text-xs text-gold font-semibold uppercase tracking-wider group-hover:underline">Ver Peças &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div onclick="filterCategory('calcinha')" class="group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-md border border-offwhite-border">
+                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80" alt="Calcinhas Finas" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-marsala-deep/90 via-marsala-dark/30 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <h3 class="font-serif text-2xl font-bold mb-1">Calcinhas</h3>
+                        <p class="text-xs text-offwhite-dark uppercase tracking-widest mb-3">Sensualidade Sem Costura</p>
+                        <span class="text-xs text-gold font-semibold uppercase tracking-wider group-hover:underline">Ver Peças &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div onclick="filterCategory('body')" class="group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-md border border-offwhite-border">
+                    <img src="https://images.unsplash.com/photo-1596472537672-0402b800c8f5?auto=format&fit=crop&w=800&q=80" alt="Bodies e Corsets" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-marsala-deep/90 via-marsala-dark/30 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <h3 class="font-serif text-2xl font-bold mb-1">Bodies & Corsets</h3>
+                        <p class="text-xs text-offwhite-dark uppercase tracking-widest mb-3">Design Escultural</p>
+                        <span class="text-xs text-gold font-semibold uppercase tracking-wider group-hover:underline">Ver Peças &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div onclick="filterCategory('noiva')" class="group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-md border border-offwhite-border">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Coleção Noivas em Off-White" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-marsala-deep/90 via-marsala-dark/30 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <h3 class="font-serif text-2xl font-bold mb-1">Noivas & Nightwear</h3>
+                        <p class="text-xs text-offwhite-dark uppercase tracking-widest mb-3">Off-White & Seda</p>
+                        <span class="text-xs text-gold font-semibold uppercase tracking-wider group-hover:underline">Ver Peças &rarr;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo de Produtos -->
+    <section id="produtos" class="py-16 bg-offwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                <div>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-marsala-deep mb-2">Coleção La Belle</h2>
+                    <p class="text-stone-600 font-light">Selecione suas peças favoritas em Marsala e Off-White.</p>
+                </div>
+
+                <!-- Filtros por Botão -->
+                <div class="flex flex-wrap gap-2 mt-6 md:mt-0" id="filter-buttons">
+                    <button class="filter-btn active bg-marsala text-white px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition shadow-sm" data-filter="todos">Todos</button>
+                    <button class="filter-btn bg-white text-stone-700 hover:bg-offwhite-dark px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition border border-offwhite-border" data-filter="sutia">Sutiãs</button>
+                    <button class="filter-btn bg-white text-stone-700 hover:bg-offwhite-dark px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition border border-offwhite-border" data-filter="calcinha">Calcinhas</button>
+                    <button class="filter-btn bg-white text-stone-700 hover:bg-offwhite-dark px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition border border-offwhite-border" data-filter="body">Bodies</button>
+                    <button class="filter-btn bg-white text-stone-700 hover:bg-offwhite-dark px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition border border-offwhite-border" data-filter="noiva">Noiva</button>
+                </div>
+            </div>
+
+            <!-- Grid de Produtos -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Renderizado dinamicamente via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner Destaque Coleção Marsala -->
+    <section class="py-20 bg-marsala-dark text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-gold uppercase text-xs tracking-widest font-bold">Edição Especial</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold leading-tight">Marsala Velvet & Guipure</h2>
+                    <p class="text-offwhite-dark font-light leading-relaxed">
+                        A cor da paixão traduzida em rendas exclusivas e acabamentos em cetim de seda. Descubra a coleção pensada para elevar sua autoestima em todos os momentos.
+                    </p>
+                    <button onclick="filterCategory('todos')" class="inline-block bg-gold hover:bg-gold-light text-marsala-deep font-bold px-8 py-3.5 rounded-full uppercase text-xs tracking-wider transition shadow-lg">
+                        Garantir Minhas Peças
+                    </button>
+                </div>
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=800&q=80" alt="Lingerie Marsala" class="rounded-3xl shadow-2xl border-2 border-gold/30">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre a Marca -->
+    <section id="sobre" class="py-20 bg-offwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80" alt="Ateliê La Belle" class="rounded-3xl shadow-xl h-[480px] w-full object-cover">
+                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl hidden sm:block max-w-xs border border-gold/30">
+                        <p class="font-serif text-marsala-deep italic text-sm">"Lingerie não é apenas vestuário, é uma declaração de amor-próprio."</p>
+                        <span class="text-xs text-gold block font-semibold mt-2 uppercase tracking-widest">— Atelier La Belle</span>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <span class="text-gold uppercase text-xs tracking-widest font-bold">Alta Costura & Conforto</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 leading-tight">Feito para abraçar suas curvas com perfeição.</h2>
+                    <p class="text-stone-600 font-light leading-relaxed">
+                        Na La Belle Lingerie, combinamos modelagens anatômicas modernas com os tecidos mais nobres do mercado. Nossos tons de Marsala e Off-White trazem a harmonia perfeita entre mistério e delicadeza.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 pt-2">
+                        <div class="border-l-2 border-marsala pl-4">
+                            <h4 class="font-serif text-2xl font-bold text-stone-900">100%</h4>
+                            <p class="text-xs text-stone-500 uppercase tracking-wider">Forro Algodão Hipoalergênico</p>
+                        </div>
+                        <div class="border-l-2 border-marsala pl-4">
+                            <h4 class="font-serif text-2xl font-bold text-stone-900">Exclusivo</h4>
+                            <p class="text-xs text-stone-500 uppercase tracking-wider">Design Autoral Brasileiro</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos de Clientes -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="font-serif text-3xl font-bold text-marsala-deep mb-2">Opiniões de Quem Ama</h2>
+            <div class="w-16 h-0.5 bg-gold mx-auto mb-10"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-offwhite p-8 rounded-2xl text-left border border-offwhite-border relative">
+                    <div class="text-gold text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-stone-600 italic text-sm mb-6">"O tom de Marsala é ainda mais lindo pessoalmente! A renda é superfina e não incomoda nada na pele. Já quero pedir mais conjuntos."</p>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-marsala/20 text-marsala rounded-full flex items-center justify-center font-bold text-xs">VP</div>
+                        <div>
+                            <h4 class="text-sm font-bold text-stone-900">Vanessa P.</h4>
+                            <span class="text-xs text-stone-400">Curitiba, PR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-offwhite p-8 rounded-2xl text-left border border-offwhite-border relative">
+                    <div class="text-gold text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-stone-600 italic text-sm mb-6">"Comprei a linha Noiva Off-White para o meu dia de noiva. O caimento do robe e do sutiã de renda foi impecável. Atendimento no WhatsApp super atencioso!"</p>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-marsala/20 text-marsala rounded-full flex items-center justify-center font-bold text-xs">LR</div>
+                        <div>
+                            <h4 class="text-sm font-bold text-stone-900">Letícia R.</h4>
+                            <span class="text-xs text-stone-400">São Paulo, SP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-offwhite p-8 rounded-2xl text-left border border-offwhite-border relative">
+                    <div class="text-gold text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-stone-600 italic text-sm mb-6">"Chegou super rápido em uma caixa cheirosa e muito discreta. O body Marsala veste como uma luva. Recomendo de olhos fechados!"</p>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-marsala/20 text-marsala rounded-full flex items-center justify-center font-bold text-xs">BC</div>
+                        <div>
+                            <h4 class="text-sm font-bold text-stone-900">Beatriz C.</h4>
+                            <span class="text-xs text-stone-400">Belo Horizonte, MG</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-marsala-deep text-offwhite-dark pt-16 pb-8 border-t border-marsala-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-marsala-dark/80">
+                
+                <!-- Coluna 1: Logo & Sobre -->
+                <div class="space-y-4">
+                    <span class="font-serif text-2xl font-bold tracking-wider text-white block">LA BELLE</span>
+                    <p class="text-xs text-stone-300 font-light leading-relaxed">
+                        Boutique exclusiva de lingerie em tons Marsala e Off-White. Criada para celebrar a sensualidade refinada de cada mulher.
+                    </p>
+                    <div class="flex space-x-3 pt-2">
+                        <a href="#" class="w-9 h-9 rounded-full bg-marsala-dark flex items-center justify-center hover:bg-gold hover:text-marsala-deep transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-marsala-dark flex items-center justify-center hover:bg-gold hover:text-marsala-deep transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-marsala-dark flex items-center justify-center hover:bg-gold hover:text-marsala-deep transition-colors"><i class="fa-brands fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+
+                <!-- Coluna 2: Navegação rápida -->
+                <div>
+                    <h4 class="text-gold font-serif font-semibold mb-4 text-xs uppercase tracking-widest">Navegação</h4>
+                    <ul class="space-y-2.5 text-xs text-stone-300">
+                        <li><a href="#home" class="hover:text-gold transition">Início</a></li>
+                        <li><a href="#produtos" class="hover:text-gold transition">Sutiãs de Renda</a></li>
+                        <li><a href="#produtos" class="hover:text-gold transition">Calcinhas Finas</a></li>
+                        <li><a href="#produtos" class="hover:text-gold transition">Bodies & Corsets</a></li>
+                        <li><a href="#" onclick="openSizeGuideModal()" class="hover:text-gold transition text-gold font-medium">Guia de Tamanhos (Tabela)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Coluna 3: Atendimento -->
+                <div>
+                    <h4 class="text-gold font-serif font-semibold mb-4 text-xs uppercase tracking-widest">Atendimento</h4>
+                    <ul class="space-y-2.5 text-xs text-stone-300">
+                        <li><a href="#" class="hover:text-gold transition">Trocas e Devoluções</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Envios e Prazos</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Política de Privacidade</a></li>
+                        <li class="pt-2"><a href="https://wa.me/5564984792747" target="_blank" class="text-white hover:text-gold font-semibold flex items-center"><i class="fa-brands fa-whatsapp text-emerald-400 text-base mr-2"></i> WhatsApp: (64) 98479-2747</a></li>
+                    </ul>
+                </div>
+
+                <!-- Coluna 4: Newsletter -->
+                <div>
+                    <h4 class="text-gold font-serif font-semibold mb-3 text-xs uppercase tracking-widest">Clube La Belle</h4>
+                    <p class="text-xs text-stone-300 mb-4">Receba novidades exclusivas e 10% OFF na primeira compra.</p>
+                    <form id="newsletter-form" class="space-y-2">
+                        <input type="email" placeholder="Seu melhor e-mail" required class="w-full bg-marsala-dark border border-marsala-light text-white text-xs px-4 py-3 rounded-xl focus:outline-none focus:border-gold placeholder-stone-400">
+                        <button type="submit" class="w-full bg-gold hover:bg-gold-light text-marsala-deep font-bold text-xs py-3 rounded-xl uppercase tracking-wider transition">Quero Meu Desconto</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Direitos Autorais & Pagamento -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400">
+                <p>&copy; 2026 La Belle Lingerie. Todos os direitos reservados.</p>
+                <div class="flex items-center space-x-4 mt-4 sm:mt-0 text-xl text-stone-300">
+                    <i class="fa-brands fa-pix text-emerald-400" title="Pix"></i>
+                    <i class="fa-brands fa-cc-visa" title="Visa"></i>
+                    <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar (Drawer Off-Canvas) -->
+    <div id="cart-drawer-overlay" class="fixed inset-0 bg-stone-950/70 z-50 hidden opacity-0 transition-opacity duration-300">
+        <div id="cart-drawer" class="fixed right-0 top-0 h-full w-full max-w-md bg-offwhite shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300">
+            
+            <!-- Header do Carrinho -->
+            <div class="p-5 border-b border-offwhite-border flex justify-between items-center bg-white">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-bag-shopping text-marsala text-xl"></i>
+                    <h3 class="font-serif text-lg font-bold text-stone-900">Seu Carrinho</h3>
+                </div>
+                <button id="close-cart" class="text-stone-400 hover:text-marsala p-2"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <!-- Lista de Itens -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-4 divide-y divide-offwhite-border">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <!-- Rodapé do Carrinho com Cupom e WhatsApp Checkout -->
+            <div class="p-5 border-t border-offwhite-border bg-white space-y-3">
+                <!-- Cupom de Desconto -->
+                <div class="flex space-x-2">
+                    <input type="text" id="coupon-input" placeholder="Cupom (ex: LABELLE10)" class="flex-1 border border-stone-300 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-marsala uppercase">
+                    <button id="apply-coupon-btn" class="bg-marsala hover:bg-marsala-dark text-white text-xs px-4 py-2 rounded-xl font-semibold transition">Aplicar</button>
+                </div>
+                <div id="coupon-applied-msg" class="text-[11px] text-emerald-600 font-medium hidden">✓ Cupom aplicado com sucesso (10% OFF)!</div>
+
+                <div class="space-y-1.5 pt-2 text-xs text-stone-600">
+                    <div class="flex justify-between">
+                        <span>Subtotal:</span>
+                        <span id="cart-subtotal" class="font-semibold text-stone-900">R$ 0,00</span>
+                    </div>
+                    <div id="discount-row" class="flex justify-between text-emerald-600 hidden">
+                        <span>Desconto (Cupom):</span>
+                        <span id="cart-discount">- R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Frete:</span>
+                        <span id="cart-shipping" class="text-emerald-600 font-medium">Grátis</span>
+                    </div>
+                    <div class="flex justify-between text-base font-serif font-bold text-marsala-deep pt-2 border-t border-offwhite-border">
+                        <span>Total:</span>
+                        <span id="cart-total">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <button id="whatsapp-checkout-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 rounded-xl font-semibold tracking-wider uppercase text-xs transition shadow-lg flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Finalizar Compra via WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Produto (Quick View) -->
+    <div id="product-modal" class="fixed inset-0 bg-stone-950/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl relative flex flex-col md:flex-row max-h-[90vh]">
+            <button id="close-modal" class="absolute top-4 right-4 z-10 w-8 h-8 bg-offwhite hover:bg-stone-200 rounded-full flex items-center justify-center text-stone-600"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="md:w-1/2 bg-offwhite">
+                <img id="modal-img" src="" alt="" class="w-full h-72 md:h-full object-cover">
+            </div>
+            
+            <div class="md:w-1/2 p-6 md:p-8 flex flex-col justify-between overflow-y-auto">
+                <div>
+                    <span id="modal-category" class="text-xs text-gold uppercase tracking-widest font-bold"></span>
+                    <h3 id="modal-title" class="font-serif text-2xl font-bold text-marsala-deep mt-1 mb-2"></h3>
+                    <p id="modal-price" class="text-xl font-semibold text-stone-900 mb-4"></p>
+                    <p id="modal-desc" class="text-xs text-stone-600 font-light leading-relaxed mb-6"></p>
+                    
+                    <!-- Seleção de Cor -->
+                    <div class="mb-4">
+                        <label class="block text-xs uppercase font-semibold text-stone-700 mb-2">Cor Disponível:</label>
+                        <div class="flex space-x-3" id="modal-colors">
+                            <span class="w-6 h-6 rounded-full bg-marsala border-2 border-gold cursor-pointer inline-block" title="Marsala"></span>
+                            <span class="w-6 h-6 rounded-full bg-offwhite-dark border border-stone-300 cursor-pointer inline-block" title="Off-White"></span>
+                        </div>
+                    </div>
+
+                    <!-- Seleção de Tamanho -->
+                    <div class="mb-6">
+                        <label class="block text-xs uppercase font-semibold text-stone-700 mb-2">Tamanho:</label>
+                        <div class="flex space-x-2" id="modal-sizes">
+                            <button class="size-btn px-3.5 py-1.5 border border-stone-300 rounded-lg text-xs font-medium hover:border-marsala focus:bg-marsala focus:text-white transition">P</button>
+                            <button class="size-btn px-3.5 py-1.5 border border-stone-300 rounded-lg text-xs font-medium hover:border-marsala focus:bg-marsala focus:text-white transition">M</button>
+                            <button class="size-btn px-3.5 py-1.5 border border-stone-300 rounded-lg text-xs font-medium hover:border-marsala focus:bg-marsala focus:text-white transition">G</button>
+                            <button class="size-btn px-3.5 py-1.5 border border-stone-300 rounded-lg text-xs font-medium hover:border-marsala focus:bg-marsala focus:text-white transition">GG</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="modal-add-cart" class="w-full bg-marsala hover:bg-marsala-dark text-white font-semibold py-3.5 rounded-xl uppercase text-xs tracking-wider transition shadow-md">
+                    Adicionar ao Carrinho
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Guia de Tamanhos -->
+    <div id="size-guide-modal" class="fixed inset-0 bg-stone-950/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 relative">
+            <button onclick="closeSizeGuideModal()" class="absolute top-4 right-4 text-stone-400 hover:text-marsala"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="font-serif text-2xl font-bold text-marsala-deep mb-2">Tabela de Medidas</h3>
+            <p class="text-xs text-stone-500 mb-6">Utilize uma fita métrica para encontrar o seu tamanho ideal na La Belle.</p>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left border-collapse">
+                    <thead>
+                        <tr class="bg-marsala text-white">
+                            <th class="p-2.5 rounded-l-lg">Tamanho</th>
+                            <th class="p-2.5">Busto (cm)</th>
+                            <th class="p-2.5">Tórax (cm)</th>
+                            <th class="p-2.5 rounded-r-lg">Quadril (cm)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-stone-100">
+                        <tr><td class="p-2.5 font-bold">P (40)</td><td class="p-2.5">80 - 87</td><td class="p-2.5">68 - 72</td><td class="p-2.5">86 - 93</td></tr>
+                        <tr><td class="p-2.5 font-bold">M (42)</td><td class="p-2.5">88 - 92</td><td class="p-2.5">73 - 77</td><td class="p-2.5">94 - 101</td></tr>
+                        <tr><td class="p-2.5 font-bold">G (44)</td><td class="p-2.5">93 - 97</td><td class="p-2.5">78 - 82</td><td class="p-2.5">102 - 109</td></tr>
+                        <tr><td class="p-2.5 font-bold">GG (46)</td><td class="p-2.5">98 - 102</td><td class="p-2.5">83 - 87</td><td class="p-2.5">110 - 117</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Feedback -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-marsala-deep text-white px-5 py-3 rounded-xl shadow-2xl z-50 hidden flex items-center space-x-3 text-xs border border-gold/40">
+        <i class="fa-solid fa-circle-check text-gold text-base"></i>
+        <span id="toast-message">Item adicionado com sucesso!</span>
+    </div>
+
+    <!-- Lógica JS do E-commerce -->
+    <script>
+        // Database de Produtos Exclusivos das Fotos (Preço: R$ 54,90)
+        const products = [
+            {
+                id: 1,
+                name: "Conjunto Renda Azul Royal",
+                category: "sutia",
+                price: 54.90,
+                tag: "Edição Especial",
+                image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600' width='100%' height='100%'><rect width='600' height='600' fill='%23FAF8F5'/><g transform='translate(100,60)'><path d='M60 70 Q90 140 130 140 Q170 140 200 70 Q230 140 270 140 Q310 140 340 70 L330 50 Q270 120 200 60 Q130 120 70 50 Z' fill='none' stroke='%232B4C7E' stroke-width='4'/><path d='M60 100 Q130 200 200 130 Q270 200 340 100 Q330 190 270 200 Q200 210 130 200 Q70 190 60 100 Z' fill='%232B4C7E' opacity='0.85'/><path d='M80 120 Q130 180 200 140 Q270 180 320 120 Q280 230 200 230 Q120 230 80 120 Z' fill='%231B365D'/><circle cx='140' cy='150' r='12' fill='%233B6096' opacity='0.5'/><circle cx='260' cy='150' r='12' fill='%233B6096' opacity='0.5'/><path d='M100 290 L300 290 L260 410 Q200 450 140 410 Z' fill='%232B4C7E' opacity='0.9'/><path d='M110 300 Q200 340 290 300 Q250 400 200 430 Q150 400 110 300 Z' fill='%231B365D'/><path d='M80 290 Q200 320 320 290 L300 320 Q200 340 100 320 Z' fill='%232B4C7E'/></g><text x='300' y='530' text-anchor='middle' font-family='serif' font-size='22' fill='%236B1D2F' font-weight='bold'>Conjunto Renda Azul Royal</text></svg>",
+                description: "Conjunto luxo em renda floral azul royal sofisticada, com sutiã estruturado de aro com lateral larga e calcinha fio em renda trabalhada com forro 100% algodão."
+            },
+            {
+                id: 2,
+                name: "Conjunto Renda Preto Clássico",
+                category: "sutia",
+                price: 54.90,
+                tag: "Mais Vendido",
+                image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600' width='100%' height='100%'><rect width='600' height='600' fill='%23FAF8F5'/><g transform='translate(100,60)'><path d='M60 70 Q90 140 130 140 Q170 140 200 70 Q230 140 270 140 Q310 140 340 70 L330 50 Q270 120 200 60 Q130 120 70 50 Z' fill='none' stroke='%23111111' stroke-width='4'/><path d='M60 100 Q130 200 200 130 Q270 200 340 100 Q330 190 270 200 Q200 210 130 200 Q70 190 60 100 Z' fill='%23222222' opacity='0.9'/><path d='M80 120 Q130 180 200 140 Q270 180 320 120 Q280 230 200 230 Q120 230 80 120 Z' fill='%23050505'/><circle cx='140' cy='150' r='12' fill='%23444444' opacity='0.5'/><circle cx='260' cy='150' r='12' fill='%23444444' opacity='0.5'/><path d='M100 290 L300 290 L260 410 Q200 450 140 410 Z' fill='%23222222' opacity='0.9'/><path d='M110 300 Q200 340 290 300 Q250 400 200 430 Q150 400 110 300 Z' fill='%23050505'/><path d='M80 290 Q200 320 320 290 L300 320 Q200 340 100 320 Z' fill='%23111111'/></g><text x='300' y='530' text-anchor='middle' font-family='serif' font-size='22' fill='%236B1D2F' font-weight='bold'>Conjunto Renda Preto Clássico</text></svg>",
+                description: "Conjunto sensual em renda geométrica e floral preta, com sutiã com bojo anatômico, pala rendada alongada e calcinha delicada."
+            },
+            {
+                id: 3,
+                name: "Conjunto Renda Marsala Nobre",
+                category: "sutia",
+                price: 54.90,
+                tag: "Destaque La Belle",
+                image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600' width='100%' height='100%'><rect width='600' height='600' fill='%23FAF8F5'/><g transform='translate(100,60)'><path d='M60 70 Q90 140 130 140 Q170 140 200 70 Q230 140 270 140 Q310 140 340 70 L330 50 Q270 120 200 60 Q130 120 70 50 Z' fill='none' stroke='%236B1D2F' stroke-width='4'/><path d='M60 100 Q130 200 200 130 Q270 200 340 100 Q330 190 270 200 Q200 210 130 200 Q70 190 60 100 Z' fill='%236B1D2F' opacity='0.85'/><path d='M80 120 Q130 180 200 140 Q270 180 320 120 Q280 230 200 230 Q120 230 80 120 Z' fill='%234A121E'/><circle cx='140' cy='150' r='12' fill='%238B263E' opacity='0.5'/><circle cx='260' cy='150' r='12' fill='%238B263E' opacity='0.5'/><path d='M100 290 L300 290 L260 410 Q200 450 140 410 Z' fill='%236B1D2F' opacity='0.9'/><path d='M110 300 Q200 340 290 300 Q250 400 200 430 Q150 400 110 300 Z' fill='%234A121E'/><path d='M80 290 Q200 320 320 290 L300 320 Q200 340 100 320 Z' fill='%236B1D2F'/></g><text x='300' y='530' text-anchor='middle' font-family='serif' font-size='22' fill='%236B1D2F' font-weight='bold'>Conjunto Renda Marsala Nobre</text></svg>",
+                description: "Conjunto sofisticado no tom Marsala exclusivo da marca, feito em renda trabalhada com barbatanas laterais de sustentação e calcinha fio duplo rendada."
+            }
+        ];
+
+        // Estado da aplicação
+        let cart = [];
+        let favorites = [];
+        let currentSelectedSize = "M";
+        let activeModalProduct = null;
+        let discountPercentage = 0;
+
+        // Elementos DOM
+        const productGrid = document.getElementById('product-grid');
+        const cartBtn = document.getElementById('cart-btn');
+        const closeCartBtn = document.getElementById('close-cart');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartOverlay = document.getElementById('cart-drawer-overlay');
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartSubtotal = document.getElementById('cart-subtotal');
+        const cartTotal = document.getElementById('cart-total');
+
+        const productModal = document.getElementById('product-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalCategory = document.getElementById('modal-category');
+        const modalTitle = document.getElementById('modal-title');
+        const modalPrice = document.getElementById('modal-price');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalAddCartBtn = document.getElementById('modal-add-cart');
+
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Renderizar Produtos
+        function renderProducts(filter = 'todos') {
+            productGrid.innerHTML = '';
+            
+            const filteredProducts = filter === 'todos' 
+                ? products 
+                : products.filter(p => p.category === filter);
+
+            filteredProducts.forEach(product => {
+                const isFav = favorites.includes(product.id);
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between border border-offwhite-border";
+                card.innerHTML = `
+                    <div class="relative overflow-hidden cursor-pointer h-80" onclick="openProductModal(${product.id})">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        
+                        ${product.tag ? `<span class="absolute top-3 left-3 bg-marsala text-white text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full shadow-md">${product.tag}</span>` : ''}
+
+                        <button onclick="event.stopPropagation(); toggleFavorite(${product.id})" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-stone-700 hover:text-marsala transition-colors shadow-sm">
+                            <i class="${isFav ? 'fa-solid text-marsala' : 'fa-regular'} fa-heart"></i>
+                        </button>
+
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-stone-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex justify-center">
+                            <span class="bg-white/95 text-stone-900 text-xs px-4 py-2 rounded-full font-medium shadow-md">Espiar Detalhes</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] text-gold uppercase tracking-widest font-bold block mb-1">${product.category}</span>
+                            <h3 class="font-serif text-base font-bold text-stone-800 line-clamp-1 mb-2 hover:text-marsala transition cursor-pointer" onclick="openProductModal(${product.id})">${product.name}</h3>
+                            <p class="text-sm font-semibold text-marsala-deep">R$ ${product.price.toFixed(2).replace('.', ',')}</p>
+                        </div>
+                        
+                        <button onclick="addToCart(${product.id})" class="mt-4 w-full border border-marsala hover:bg-marsala hover:text-white text-marsala font-semibold py-2.5 rounded-xl text-xs uppercase tracking-wider transition-colors duration-200">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+        }
+
+        // Filtro rápido por categoria
+        function filterCategory(cat) {
+            document.querySelectorAll('#filter-buttons .filter-btn').forEach(b => {
+                b.classList.remove('active', 'bg-marsala', 'text-white');
+                b.classList.add('bg-white', 'text-stone-700');
+                if (b.dataset.filter === cat) {
+                    b.classList.add('active', 'bg-marsala', 'text-white');
+                    b.classList.remove('bg-white', 'text-stone-700');
+                }
+            });
+            renderProducts(cat);
+        }
+
+        // Abrir Modal de Detalhes
+        function openProductModal(productId) {
+            activeModalProduct = products.find(p => p.id === productId);
+            if (!activeModalProduct) return;
+
+            modalImg.src = activeModalProduct.image;
+            modalCategory.innerText = activeModalProduct.category;
+            modalTitle.innerText = activeModalProduct.name;
+            modalPrice.innerText = `R$ ${activeModalProduct.price.toFixed(2).replace('.', ',')}`;
+            modalDesc.innerText = activeModalProduct.description;
+
+            productModal.classList.remove('hidden');
+        }
+
+        closeModalBtn.addEventListener('click', () => {
+            productModal.classList.add('hidden');
+        });
+
+        // Botões de tamanho no modal
+        document.querySelectorAll('#modal-sizes .size-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('#modal-sizes .size-btn').forEach(b => b.classList.remove('bg-marsala', 'text-white'));
+                e.target.classList.add('bg-marsala', 'text-white');
+                currentSelectedSize = e.target.innerText;
+            });
+        });
+
+        modalAddCartBtn.addEventListener('click', () => {
+            if (activeModalProduct) {
+                addToCart(activeModalProduct.id, currentSelectedSize);
+                productModal.classList.add('hidden');
+            }
+        });
+
+        // Modal de Tamanhos
+        function openSizeGuideModal() {
+            document.getElementById('size-guide-modal').classList.remove('hidden');
+        }
+        function closeSizeGuideModal() {
+            document.getElementById('size-guide-modal').classList.add('hidden');
+        }
+
+        // Carrinho de Compras
+        function addToCart(productId, size = 'M') {
+            const product = products.find(p => p.id === productId);
+            const cartItemIndex = cart.findIndex(item => item.id === productId && item.size === size);
+
+            if (cartItemIndex > -1) {
+                cart[cartItemIndex].quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1, size: size });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" no carrinho!`);
+        }
+
+        function removeFromCart(productId, size) {
+            cart = cart.filter(item => !(item.id === productId && item.size === size));
+            updateCartUI();
+        }
+
+        function changeQuantity(productId, size, delta) {
+            const item = cart.find(i => i.id === productId && i.size === size);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId, size);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        function updateCartUI() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.innerText = totalCount;
+
+            cartItemsContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="text-center py-12 text-stone-400">
+                        <i class="fa-solid fa-bag-shopping text-4xl mb-3 opacity-30 text-marsala"></i>
+                        <p class="text-sm">Seu carrinho está vazio.</p>
+                    </div>
+                `;
+            } else {
+                cart.forEach(item => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = "pt-4 flex items-center space-x-4";
+                    itemEl.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-20 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="text-xs font-bold text-stone-800 line-clamp-1">${item.name}</h4>
+                            <span class="text-[10px] text-stone-500 uppercase font-semibold">Tamanho: ${item.size}</span>
+                            <div class="text-xs font-semibold text-marsala-deep mt-1">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</div>
+                            <div class="flex items-center space-x-2 mt-2">
+                                <button onclick="changeQuantity(${item.id}, '${item.size}', -1)" class="w-5 h-5 bg-stone-200 rounded flex items-center justify-center text-xs font-bold text-stone-700">-</button>
+                                <span class="text-xs font-medium">${item.quantity}</span>
+                                <button onclick="changeQuantity(${item.id}, '${item.size}', 1)" class="w-5 h-5 bg-stone-200 rounded flex items-center justify-center text-xs font-bold text-stone-700">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id}, '${item.size}')" class="text-stone-300 hover:text-red-500 text-xs p-1"><i class="fa-solid fa-trash"></i></button>
+                    `;
+                    cartItemsContainer.appendChild(itemEl);
+                });
+            }
+
+            const rawSubtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = rawSubtotal * discountPercentage;
+            const finalTotal = rawSubtotal - discountAmount;
+
+            cartSubtotal.innerText = `R$ ${rawSubtotal.toFixed(2).replace('.', ',')}`;
+            if (discountPercentage > 0) {
+                document.getElementById('discount-row').classList.remove('hidden');
+                document.getElementById('cart-discount').innerText = `- R$ ${discountAmount.toFixed(2).replace('.', ',')}`;
+            } else {
+                document.getElementById('discount-row').classList.add('hidden');
+            }
+            cartTotal.innerText = `R$ ${finalTotal.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Cupom de desconto
+        document.getElementById('apply-coupon-btn').addEventListener('click', () => {
+            const couponInput = document.getElementById('coupon-input').value.trim().toUpperCase();
+            if (couponInput === 'LABELLE10') {
+                discountPercentage = 0.10;
+                document.getElementById('coupon-applied-msg').classList.remove('hidden');
+                updateCartUI();
+                showToast("Cupom de 10% OFF Aplicado!");
+            } else {
+                showToast("Cupom inválido ou expirado.");
+            }
+        });
+
+        // Checkout via WhatsApp
+        document.getElementById('whatsapp-checkout-btn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                showToast("Seu carrinho está vazio!");
+                return;
+            }
+
+            let message = "*Novo Pedido - La Belle Lingerie*\n\n";
+            cart.forEach((item, index) => {
+                message += `${index + 1}. *${item.name}*\n   • Tam: ${item.size} | Qtd: ${item.quantity} | R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}\n`;
+            });
+
+            const rawSubtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = rawSubtotal * discountPercentage;
+            const finalTotal = rawSubtotal - discountAmount;
+
+            message += `\n*Subtotal:* R$ ${rawSubtotal.toFixed(2).replace('.', ',')}`;
+            if (discountPercentage > 0) {
+                message += `\n*Desconto (LABELLE10):* -R$ ${discountAmount.toFixed(2).replace('.', ',')}`;
+            }
+            message += `\n*Total do Pedido:* R$ ${finalTotal.toFixed(2).replace('.', ',')}\n\n`;
+            message += "Gostaria de finalizar o meu pedido e verificar as opções de pagamento e entrega! ✨";
+
+            const whatsappUrl = `https://wa.me/5564984792747?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // Favoritos
+        function toggleFavorite(productId) {
+            const index = favorites.indexOf(productId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast("Item removido dos favoritos.");
+            } else {
+                favorites.push(productId);
+                showToast("Item adicionado aos favoritos!");
+            }
+            const favCountEl = document.getElementById('fav-count');
+            favCountEl.innerText = favorites.length;
+            favCountEl.classList.toggle('hidden', favorites.length === 0);
+            renderProducts();
+        }
+
+        // Toggle Drawer Carrinho
+        function toggleCartDrawer(open) {
+            if (open) {
+                cartOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    cartOverlay.classList.remove('opacity-0');
+                    cartDrawer.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                cartDrawer.classList.add('translate-x-full');
+                cartOverlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    cartOverlay.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        cartBtn.addEventListener('click', () => toggleCartDrawer(true));
+        closeCartBtn.addEventListener('click', () => toggleCartDrawer(false));
+        cartOverlay.addEventListener('click', (e) => {
+            if (e.target === cartOverlay) toggleCartDrawer(false);
+        });
+
+        // Toast Feedback
+        function showToast(msg) {
+            toastMessage.innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Filtros de Categoria Event Listener
+        document.querySelectorAll('#filter-buttons .filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('#filter-buttons .filter-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-marsala', 'text-white');
+                    b.classList.add('bg-white', 'text-stone-700');
+                });
+                e.target.classList.add('active', 'bg-marsala', 'text-white');
+                e.target.classList.remove('bg-white', 'text-stone-700');
+
+                renderProducts(e.target.dataset.filter);
+            });
+        });
+
+        // Barra de Busca
+        const searchBtn = document.getElementById('search-btn');
+        const searchBar = document.getElementById('search-bar');
+        const closeSearch = document.getElementById('close-search');
+        const searchInput = document.getElementById('search-input');
+
+        searchBtn.addEventListener('click', () => {
+            searchBar.classList.toggle('hidden');
+            if (!searchBar.classList.contains('hidden')) searchInput.focus();
+        });
+
+        closeSearch.addEventListener('click', () => searchBar.classList.add('hidden'));
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
+            productGrid.innerHTML = '';
+            
+            if (filtered.length === 0) {
+                productGrid.innerHTML = `<p class="col-span-full text-center py-10 text-stone-500">Nenhum produto encontrado para "${query}".</p>`;
+                return;
+            }
+
+            filtered.forEach(product => {
+                renderProducts();
+            });
+        });
+
+        // Menu Mobile
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Newsletter Submit
+        document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast("Obrigada! Cupom de 10% enviado ao seu e-mail.");
+            e.target.reset();
+        });
+
+        // Onload
+        window.onload = () => {
+            renderProducts();
+        };
+    </script>
+</body>
+</html>
